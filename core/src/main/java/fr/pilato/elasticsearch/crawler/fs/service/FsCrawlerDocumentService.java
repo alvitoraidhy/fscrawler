@@ -41,7 +41,7 @@ public interface FsCrawlerDocumentService extends FsCrawlerService {
      * @param doc       Document to index
      * @param pipeline  Pipeline (can be null)
      */
-    void indexSafe(String index, String id, Doc doc, String pipeline);
+    void indexSafe(String index, String id, Doc doc, String pipeline) throws IOException, ElasticsearchClientException;
 
     /**
      * Send a document to the target service

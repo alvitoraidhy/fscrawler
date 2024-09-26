@@ -72,7 +72,7 @@ public class FsCrawlerDocumentServiceElasticsearchImpl implements FsCrawlerDocum
     }
 
     @Override
-    public void indexSafe(String index, String id, Doc doc, String pipeline) {
+    public void indexSafe(String index, String id, Doc doc, String pipeline) throws IOException, ElasticsearchClientException {
         if (client.exists(index, id)) {
             indexRawJson(index, id, serialize(doc), pipeline);
         }
