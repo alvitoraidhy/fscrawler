@@ -33,7 +33,7 @@ import fr.pilato.elasticsearch.crawler.fs.framework.FSCrawlerLogger;
 import fr.pilato.elasticsearch.crawler.fs.framework.FsCrawlerUtil;
 import fr.pilato.elasticsearch.crawler.fs.framework.OsValidator;
 import fr.pilato.elasticsearch.crawler.fs.framework.SignTool;
-import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerDocumentService;
+import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerDocumentServiceElasticsearchImpl;
 import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerManagementService;
 import fr.pilato.elasticsearch.crawler.fs.settings.FsSettings;
 import fr.pilato.elasticsearch.crawler.fs.settings.Server.PROTOCOL;
@@ -66,7 +66,7 @@ public abstract class FsParserAbstract extends FsParser {
     private final FsJobFileHandler fsJobFileHandler;
 
     private final FsCrawlerManagementService managementService;
-    private final FsCrawlerDocumentService documentService;
+    private final FsCrawlerDocumentServiceElasticsearchImpl documentService;
     private final Integer loop;
     private final MessageDigest messageDigest;
     private final String pathSeparator;
