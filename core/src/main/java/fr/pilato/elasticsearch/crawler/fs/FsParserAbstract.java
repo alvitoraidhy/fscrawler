@@ -33,7 +33,7 @@ import fr.pilato.elasticsearch.crawler.fs.framework.FSCrawlerLogger;
 import fr.pilato.elasticsearch.crawler.fs.framework.FsCrawlerUtil;
 import fr.pilato.elasticsearch.crawler.fs.framework.OsValidator;
 import fr.pilato.elasticsearch.crawler.fs.framework.SignTool;
-import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerDocumentServiceElasticsearchImpl;
+import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerDocumentService;
 import fr.pilato.elasticsearch.crawler.fs.service.FsCrawlerManagementService;
 import fr.pilato.elasticsearch.crawler.fs.settings.FsSettings;
 import fr.pilato.elasticsearch.crawler.fs.settings.Server.PROTOCOL;
@@ -66,7 +66,7 @@ public abstract class FsParserAbstract extends FsParser {
     private final FsJobFileHandler fsJobFileHandler;
 
     private final FsCrawlerManagementService managementService;
-    private final FsCrawlerDocumentServiceElasticsearchImpl documentService;
+    private final FsCrawlerDocumentService documentService;
     private final Integer loop;
     private final MessageDigest messageDigest;
     private final String pathSeparator;
@@ -457,13 +457,11 @@ public abstract class FsParserAbstract extends FsParser {
                     FSCrawlerLogger.documentDebug(id,
                             computeVirtualPathName(stats.getRootPath(), fullFilename),
                             "Indexing content");
-                    if (!documentService.getClient().exists(fsSettings.getElasticsearch().getIndex(), id)) {
-                        documentService.index(
-                                fsSettings.getElasticsearch().getIndex(),
-                                id,
-                                doc,
-                                fsSettings.getElasticsearch().getPipeline());
-                    }
+                    documentService.indexSafe(
+                            fsSettings.getElasticsearch().getIndex(),
+                            id,
+                            doc,
+                            fsSettings.getElasticsearch().getPipeline());
                 } else {
                     logger.warn("trying to add new file while closing crawler. Document [{}]/[{}] has been ignored",
                             fsSettings.getElasticsearch().getIndex(), id);

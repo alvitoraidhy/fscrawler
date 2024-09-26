@@ -35,6 +35,15 @@ public interface FsCrawlerDocumentService extends FsCrawlerService {
     void createSchema() throws Exception;
 
     /**
+     * Send a document to the target service (don't replace existing docs)
+     * @param index     Index name
+     * @param id        Document id
+     * @param doc       Document to index
+     * @param pipeline  Pipeline (can be null)
+     */
+    void indexSafe(String index, String id, Doc doc, String pipeline);
+
+    /**
      * Send a document to the target service
      * @param index     Index name
      * @param id        Document id

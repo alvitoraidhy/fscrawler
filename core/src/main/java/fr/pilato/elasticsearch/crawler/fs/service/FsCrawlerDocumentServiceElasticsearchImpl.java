@@ -72,6 +72,13 @@ public class FsCrawlerDocumentServiceElasticsearchImpl implements FsCrawlerDocum
     }
 
     @Override
+    public void indexSafe(String index, String id, Doc doc, String pipeline) {
+        if (client.exists(index, id)) {
+            indexRawJson(index, id, serialize(doc), pipeline);
+        }
+    }
+
+    @Override
     public void index(String index, String id, Doc doc, String pipeline) {
         indexRawJson(index, id, serialize(doc), pipeline);
     }
