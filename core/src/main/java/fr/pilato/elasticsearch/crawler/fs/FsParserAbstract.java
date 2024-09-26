@@ -457,11 +457,13 @@ public abstract class FsParserAbstract extends FsParser {
                     FSCrawlerLogger.documentDebug(id,
                             computeVirtualPathName(stats.getRootPath(), fullFilename),
                             "Indexing content");
-                    documentService.index(
-                            fsSettings.getElasticsearch().getIndex(),
-                            id,
-                            doc,
-                            fsSettings.getElasticsearch().getPipeline());
+                    if (!documentService.getClient().exists(fsSettings.getElasticsearch().getIndex(), id)) {
+                        documentService.index(
+                                fsSettings.getElasticsearch().getIndex(),
+                                id,
+                                doc,
+                                fsSettings.getElasticsearch().getPipeline());
+                    }
                 } else {
                     logger.warn("trying to add new file while closing crawler. Document [{}]/[{}] has been ignored",
                             fsSettings.getElasticsearch().getIndex(), id);
